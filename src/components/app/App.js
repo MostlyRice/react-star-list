@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import axios from "axios";
 import logo from './logo.svg';
 import './App.css';
 import CurrentNewStar from '../CurrentNewStar/CurrentNewStar';
 import StarList from '../StarList/StarList';
 import NewStarForm from '../NewStarForm/NewStarForm';
+import PlanetList from '../PlanetList/PlanetList';
 
 class App extends Component {
   constructor(props) {
@@ -15,16 +17,36 @@ class App extends Component {
         diameter: '',
         population: '',
       },
+
       starList:[
           {name: 'Gacrux', diameter: 117, population: 0},
           {name: 'Hadar', diameter: 13, population: 0},
           {name: 'Fomalhaut', diameter: 2, population: 0},
       ],
-  }
+      planetList: []
+  };
 
   this.handleChangeFor = this.handleChangeFor.bind(this);
   this.handleSubmit = this.handleSubmit.bind(this);
 }
+
+getPlanets(){
+  axios.get('https://swapi.co/api/planets/?format=json')
+  .then(response => {
+    this.setState({ 
+      planetList:response.data.results
+  })
+})
+  .catch(error =>{
+    console.log(error);
+  })
+}
+
+componentDidMount(){
+  this.getPlanets();
+}
+
+
 
 handleChangeFor = propertyName => event => {
   this.setState({
@@ -56,6 +78,7 @@ handleSubmit(event) {
           handleChangeFor={this.handleChangeFor} 
           handleSubmit={this.handleSubmit}/>
           <StarList starList={this.state.starList}/>
+          <PlanetList planetList={this.state.planetList}/>
         </div>
       )
   }
