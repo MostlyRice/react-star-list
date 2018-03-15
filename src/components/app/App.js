@@ -1,61 +1,63 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import CurrentNewStar from '../CurrentNewStar/CurrentNewStar';
+import StarList from '../StarList/StarList';
+import NewStarForm from '../NewStarForm/NewStarForm';
 
 class App extends Component {
-constructor(props) {
-  super(props);
+  constructor(props) {
+    super(props);
 
-  this.state = { 
-    newStar: {
-      Name: '',
-      Diameter: '',
-    },
-    
-    starlist:[ {Name:'Gacrux', Diameter:'117 Million Kilometers'}, {Name:'Fomalhaut',Diameter:'2 Miles'}, 
-    {Name:'Hadar', Diameter:'13 Million Kilometers'}]
-  },
-    this.handleClick = this.handleClick.bind(this);
-  };
-
-  handleChangeFor= (propertyName) => (event) => {
-    this.setState({
+    this.state = {
       newStar: {
-        ...this.state.newStar,
-        [propertyName]: event.target.value,
-      }
-    });
-  }
-
-  handleClick(){
-    console.log("clicked");
-    this.setState({
-      newStar: {
-        Name: '',
-        Diameter: '',
+        name: '',
+        diameter: '',
+        population: '',
       },
-      starlist: [...this.state.starlist, this.state.newStar],
-    })
+      starList:[
+          {name: 'Gacrux', diameter: 117, population: 0},
+          {name: 'Hadar', diameter: 13, population: 0},
+          {name: 'Fomalhaut', diameter: 2, population: 0},
+      ],
   }
+
+  this.handleChangeFor = this.handleChangeFor.bind(this);
+  this.handleSubmit = this.handleSubmit.bind(this);
+}
+
+handleChangeFor = propertyName => event => {
+  this.setState({
+    newStar: {
+      ...this.state.newStar,
+      [propertyName]: event.target.value
+    }
+  })
+}
+
+handleSubmit(event) {
+  event.preventDefault();
+  this.setState({
+    starList: [...this.state.starList, this.state.newStar],
+    newStar: {name: '', diameter: '', population: ''}
+  })
+}
 
   render() {
-    return (
-      <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1 className="App-title">Welcome to React</h1>
-      </header>
-      <input value={this.state.newStar.Name} onChange={this.handleChangeFor('Name')} />
-      <input value={this.state.newStar.Diameter} onChange={this.handleChangeFor('Diameter')} />
-      <button onClick={this.handleClick}> Add a new Star!</button>
-      <p>
-        This star {this.state.newStar.Name} and it'a diameter is {this.state.newStar.Diameter}
-      </p>
-      <p>
-      {this.state.starlist.map( (star) => <p key={star}>The star is {star.Name} and it's diameter is {star.Diameter} </p>)}
-      </p>
-      </div>
-    );
+      return (
+          <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Welcome to React</h1>
+        </header>
+          <CurrentNewStar newStar={this.state.newStar}/>
+          <NewStarForm 
+          newStar={this.state.newStar} 
+          handleChangeFor={this.handleChangeFor} 
+          handleSubmit={this.handleSubmit}/>
+          <StarList starList={this.state.starList}/>
+        </div>
+      )
   }
 }
 
