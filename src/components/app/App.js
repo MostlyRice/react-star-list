@@ -11,11 +11,6 @@ constructor(props) {
   };
 
   render() {
-    let starlistItemArray = [];
-    for (let i=0; i < this.state.starlist.length; i++){
-      starlistItemArray.push(<p>{this.state.starlist[ i ]}</p>)
-    }
-
     return (
       <div className="App">
       <header className="App-header">
@@ -23,7 +18,7 @@ constructor(props) {
         <h1 className="App-title">Welcome to React</h1>
       </header>
       <p>
-      {starlistItemArray}
+      {this.state.starlist.map(star => <p key={star}>  {star} </p>)}
       </p>
       </div>
     );
