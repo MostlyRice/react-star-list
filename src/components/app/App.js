@@ -6,9 +6,12 @@ class App extends Component {
 constructor(props) {
   super(props);
   this.state = { 
-    starlist:['Gacrux', 'Hadar', 'Fomalhaut', 'Elnath'],
+    starlist:[ {Name:'Gacrux', Diameter:'117 Million Kilometers'}, {Name:'Fomalhaut',Diameter:'2 Miles'}, 
+    {Name:'Hadar', Diameter:'13 Million Kilometers'}]
     }
   };
+
+
 
   render() {
     return (
@@ -18,7 +21,7 @@ constructor(props) {
         <h1 className="App-title">Welcome to React</h1>
       </header>
       <p>
-      {this.state.starlist.map(star => <p key={star}>  {star} </p>)}
+      {this.state.starlist.map( (star,i) => <p key={star}>  {star.Name}, {star.Diameter} </p>)}
       </p>
       </div>
     );
